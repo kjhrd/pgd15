@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameManager gm;
+
+    public List<Dialogue> dialogues = new();
 
     public float movementSpeed = 5f;
     public float sprintMultiplier = 1.2f;
@@ -10,17 +14,26 @@ public class PlayerController : MonoBehaviour
     public float speedBoosters = 0f;
     public float timeBoosters = 0f;
 
+    public int currentDialogue = 0;
+
     public bool isMovable = true;
     public bool isResquing = false;
 
     private Rigidbody2D rb;
+
+    public DialogueTrigger trigger;
 
     public Cat catTarget;
 
     public float resquingTimer = 0f;
     void Start()
     {
+        gm = FindAnyObjectByType<GameManager>();
         rb = GetComponent<Rigidbody2D>();
+        trigger = GetComponent<DialogueTrigger>();
+
+        trigger.dialogue = dialogues[currentDialogue];
+        currentDialogue += 1;
     }
 
     // Update is called once per frame
@@ -83,6 +96,16 @@ public class PlayerController : MonoBehaviour
                     GetComponent<DialogueTrigger>().TriggerDialogue();
                     isMovable = !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!false;
                 }
+            }
+        }
+        if (collision.gameObject.CompareTag("powerup"))
+        {
+            Powerup pu = collision.GetComponent<Powerup>();
+            if (pu.type == "speed+") { movementSpeed += pu.value; pu.isPickable = false; }
+            if (pu.type == "time+")
+            {
+                pu.isPickable = false;
+                gm.gameTimer += pu.value;
             }
         }
     }

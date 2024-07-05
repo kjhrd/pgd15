@@ -44,7 +44,6 @@ public class Cat : MonoBehaviour
         foreach (KeyCode key in currentCombination)
         {
             combination += key.ToString() + " ";
-            print(combination);
             possibleKeys.Add(key);
         }
         com.text = combination;
@@ -58,7 +57,6 @@ public class Cat : MonoBehaviour
             {
                 return false;
             }
-            else print("ok");
         }
         return true;
     }

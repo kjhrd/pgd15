@@ -6,6 +6,8 @@ public class DialogueTrigger : MonoBehaviour
 
     public bool isStarted = false;
 
+    private bool isFinished = false;
+
     DialogueManager manager;
 
     public void TriggerDialogue()
@@ -14,13 +16,14 @@ public class DialogueTrigger : MonoBehaviour
 
         if (!isStarted)
         {
-            manager.StartDialogue(dialogue); // Запуск диалога через DialogueManager
+            manager.StartDialogue(dialogue); // Запуск диалога в DialogueManager
+            isFinished = true;
         }
     }
 
     public void Update()
     {
-        if (!isStarted)
+        if (!isStarted && isFinished)
         {
             if (Input.GetMouseButtonDown(0))
             {
